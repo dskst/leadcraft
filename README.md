@@ -94,6 +94,37 @@ The default `tracker.provider: local` requires no additional dependencies. Only 
 
 ## Workflow (local default)
 
+```mermaid
+graph LR
+    S1[setup-baseline] --> B[compose-objective]
+    S2[setup-dod] -.ref.-> D
+    B --> I[compose-initiative]
+    I --> C[compose-epic]
+    C -.brainstorm.-> BS[brainstorm-stories<br/>Story candidates to md]
+    C --> D[compose-stories<br/>design + local/GitHub output]
+    C --> Q[quick-stories<br/>rough-draft output<br/>quick label]
+    BS -.refine.-> D
+    BS -.draft.-> Q
+    Q -.flesh out later.-> D
+    D --> LM[local md<br/>default]
+    D -.opt-in.-> GH[GitHub Issue<br/>draft label]
+    Q --> LM
+    Q -.opt-in.-> GH
+    LM -.upload.-> SY[sync-stories]
+    SY --> GH
+    LM --> EL[estimate-points]
+    LM --> RL[identify-risks]
+    GH -.hook.-> E[estimate-points]
+    E --> V[estimate-validator<br/>auto-launch]
+    GH -.optional.-> R[identify-risks]
+    EL --> G[review-stories<br/>draft graduation]
+    E --> G
+```
+
+Solid lines are the standard route; dotted lines are conditional branches / opt-in. **Local is the default route**; GitHub integration is opt-in (implemented adapter). The local route writes md → estimates / assesses risk on local md → turns it into an Issue with `sync-stories` → then merges into the GitHub route.
+
+The full linear pipeline across all skills:
+
 ```
 setup-baseline / setup-dod
    → compose-objective → compose-initiative → compose-epic
