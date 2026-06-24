@@ -262,7 +262,7 @@ Epic README または旧 Epic md を `Read` し、以下のパターンから St
 - 雛形から Story 本文を構築
 - トラッカー抽象操作 `create_item` で起票する（provider のアダプタ `references/backends/<provider>.md` に委譲）
   - `local`: Story md を `<epic-dir>/<slug>.md` として生成
-  - `github`: GitHub Issue + Projects に起票（Phase 2）
+  - `github`: GitHub Issue + Projects に起票
 - ラベル / タグ `story` + `epic:<epic-id>` を付与（`add_label` 操作）
 
 委譲時に渡す情報:

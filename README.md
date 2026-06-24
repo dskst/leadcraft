@@ -6,7 +6,7 @@ A Claude Code plugin that helps tech leads write and refine structured deliverab
 
 Output is a **[OKF (Open Knowledge Format)](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) v0.1 conformant Knowledge Bundle** (YAML frontmatter + markdown directory tree) — readable by humans and AI agents alike, version-controllable with git, and portable across organizations.
 
-The Story-layer tracker (storage backend) is **abstracted**: by default it runs as **zero-dependency local markdown** (OKF concept). GitHub Issue + Projects integration is opt-in (Phase 2).
+The Story-layer tracker (storage backend) is **abstracted**: by default it runs as **zero-dependency local markdown** (OKF concept). GitHub Issue + Projects integration is available as an opt-in adapter.
 
 ## Features
 
@@ -39,7 +39,7 @@ The Story-layer tracker (storage backend) is **abstracted**: by default it runs 
         ┌───────┴────────┐
         ▼                ▼
   backends/local.md   backends/github.md
-  (default, zero-dep)  (opt-in / Phase 2)
+  (default, zero-dep)  (opt-in)
    Story = md          Story = Issue+Projects
         │
         ▼
@@ -47,7 +47,7 @@ The Story-layer tracker (storage backend) is **abstracted**: by default it runs 
   (build-bundle maintains index.md / log.md / okf_version)
 ```
 
-## Included Skills (Phase 1)
+## Included Skills
 
 | Skill | Role |
 |-------|------|
@@ -59,20 +59,17 @@ The Story-layer tracker (storage backend) is **abstracted**: by default it runs 
 | [brainstorm-stories](skills/brainstorm-stories/SKILL.md) | Roughly list Story candidates (`stories-draft.md`) |
 | [compose-stories](skills/compose-stories/SKILL.md) | Detail-design Stories and register them to the tracker (default local) |
 | [quick-stories](skills/quick-stories/SKILL.md) | Register Stories with minimum steps (for rough drafts) |
+| [compose-hotfix](skills/compose-hotfix/SKILL.md) | File emergency-response Stories (`hotfix` label) |
+| [estimate-points](skills/estimate-points/SKILL.md) | PERT / simple point estimation (Fibonacci) |
+| [identify-risks](skills/identify-risks/SKILL.md) | Risk identification and reflection into PERT pessimistic values |
+| [convert-points-to-time](skills/convert-points-to-time/SKILL.md) | Convert points to time and compute duration (JUAS formula) |
+| [review-stories](skills/review-stories/SKILL.md) | Draft quality gate (6 perspectives) and graduation |
+| [sync-stories](skills/sync-stories/SKILL.md) | Upload local Stories → GitHub Issues (github adapter, opt-in) |
+| [write-adr](skills/write-adr/SKILL.md) | Architecture Decision Record creation |
+| [write-dd](skills/write-dd/SKILL.md) | Design Doc creation (living document) |
 | [build-bundle](skills/build-bundle/SKILL.md) | Generate `index.md` / `log.md` and validate OKF conformance |
 
-### Roadmap (Phase 2 and beyond)
-
-The following skills and features are planned for gradual migration from the original plugin:
-
-- `estimate-points` — PERT / simple estimation
-- `identify-risks` — risk identification and reflection into PERT pessimistic values
-- `review-stories` — draft quality gate
-- `sync-stories` — upload local Stories → GitHub Issues
-- `compose-hotfix` — filing emergency response items
-- `convert-points-to-time` — point-to-time conversion
-- `write-adr` / `write-dd` — ADR / Design Doc creation
-- Full `github` tracker adapter implementation + Projects guardrail hook + estimation validation agent
+The plugin also ships an `estimate-validator` agent (auto-launched after `estimate-points`) and two hooks: `notify-draft-added.sh` (prompts the estimate / review transition on `draft`) and `guard-project-field-mutation.sh` (hard-blocks destructive Projects field option mutation; active only under the `github` provider).
 
 ## Installation
 
@@ -93,15 +90,18 @@ The following skills and features are planned for gradual migration from the ori
 
 Configuration is saved to `.claude/leadcraft.md` (**recommended to commit as a shared team config**). A template is at `skills/setup-baseline/templates/leadcraft.md`.
 
-The default `tracker.provider: local` requires no additional dependencies. Only when using GitHub integration (Phase 2) is `gh` CLI authentication with the `project` scope required.
+The default `tracker.provider: local` requires no additional dependencies. Only when using GitHub integration (opt-in) is `gh` CLI authentication with the `project` scope required.
 
-## Workflow (Phase 1 · local default)
+## Workflow (local default)
 
 ```
 setup-baseline / setup-dod
    → compose-objective → compose-initiative → compose-epic
-   → (brainstorm-stories) → compose-stories / quick-stories (generates local md)
+   → (brainstorm-stories) → compose-stories / quick-stories / compose-hotfix (generates local md)
+   → estimate-points (→ estimate-validator) → identify-risks → review-stories
+   → (convert-points-to-time / write-adr / write-dd as needed)
    → build-bundle (generates index.md / log.md / OKF conformance validation)
+   → sync-stories (upload to GitHub Issues; opt-in)
 ```
 
 The generated tree is itself an OKF Knowledge Bundle and can be committed to git for sharing and distribution.

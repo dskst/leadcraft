@@ -58,7 +58,7 @@ leadcraft/
 │   ├── okf-conformance.md   # OKF v0.1 conformance rules for this plugin
 │   └── backends/
 │       ├── local.md         # Default adapter: zero-dependency local markdown
-│       └── github.md        # Phase 2 adapter: GitHub Issue + Projects
+│       └── github.md        # adapter: GitHub Issue + Projects (opt-in)
 ├── skills/
 │   ├── setup-baseline/
 │   │   ├── SKILL.md         # Skill definition

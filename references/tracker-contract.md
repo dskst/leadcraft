@@ -11,7 +11,7 @@ leadcraft の Story 層（および Hotfix）は、特定のトラッカー（Gi
 | provider | 状態 | アダプタ |
 |----------|------|----------|
 | `local` | **既定**。外部依存ゼロ。Story = `<epic-dir>/<slug>.md`（OKF concept） | `references/backends/local.md` |
-| `github` | opt-in。Story = GitHub Issue + Projects v2 | `references/backends/github.md`（Phase 2） |
+| `github` | opt-in。Story = GitHub Issue + Projects v2 | `references/backends/github.md` |
 
 スキルは起動時に provider を読み、対応するアダプタの「操作 → 具体手順」マップを参照する。
 `--local` / `--github` 引数で都度オーバーライドできる。

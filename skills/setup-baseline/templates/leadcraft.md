@@ -36,12 +36,12 @@ output:
 # 抽象契約は references/tracker-contract.md、各実装は references/backends/<provider>.md
 # ───────────────────────────────────────────────────────────
 tracker:
-  provider: "local"  # local（既定・外部依存ゼロ） | github（opt-in / Phase 2）
+  provider: "local"  # local（既定・外部依存ゼロ） | github（opt-in）
   # local:  Story = <epic-dir>/<slug>.md（OKF concept）。これが source of truth
-  # github: Story = GitHub Issue + Projects。local からの同期先（Phase 2 で完全対応）
+  # github: Story = GitHub Issue + Projects。local からの同期先（実装済み）
   # スキル実行時に --local / --github でオーバーライド可能
 
-  github:  # provider == github のときのみ使用（Phase 2）
+  github:  # provider == github のときのみ使用
     owner: ""        # org または user 名
     project_number: 0
     project_name: ""
@@ -100,7 +100,7 @@ velocity:
 ## トラッカー（tracker）
 
 Story 層の保存先を `tracker.provider` で切り替える。**既定は `local`**（外部依存ゼロで即動く）。
-GitHub Issue + Projects 運用に乗せたい場合は `github` にし、`tracker.github.*` を設定する（Phase 2）。
+GitHub Issue + Projects 運用に乗せたい場合は `github` にし、`tracker.github.*` を設定する。
 
 スキルはトラッカー操作を抽象契約（`references/tracker-contract.md`）経由で呼ぶため、
 将来 GitLab / Jira 等を `references/backends/<provider>.md` 追加だけで対応できる。
