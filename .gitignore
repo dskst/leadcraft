@@ -1,0 +1,18 @@
+# leadcraft local config (do NOT ignore .claude/leadcraft.md — that is a committed team config)
+.claude/*.local.md
+.claude/*.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak

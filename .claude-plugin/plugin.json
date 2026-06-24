@@ -1,0 +1,19 @@
+{
+  "name": "leadcraft",
+  "version": "0.0.1",
+  "description": "A Claude Code plugin for tech leads to compose structured deliverables (plans / estimates / architecture decisions / design docs) as an OKF-conformant, tracker-agnostic knowledge bundle.",
+  "author": {
+    "name": "dskst"
+  },
+  "homepage": "https://github.com/dskst/leadcraft",
+  "license": "MIT",
+  "keywords": [
+    "planning",
+    "scrum",
+    "estimation",
+    "adr",
+    "design-doc",
+    "okf",
+    "knowledge-bundle"
+  ]
+}
